@@ -109,3 +109,8 @@ function removeOldMessages() {
   });
 }
 
+document.getElementById('message').addEventListener('keypress', function(e) {
+  if (e.key === 'Enter') {
+    sendMessage();
+  }
+});

@@ -307,3 +307,10 @@ footer {
 .chat-message strong {
   color: #47ff63; /* Cor do nome */
 }
+.player {
+  width: 100%;
+  aspect-ratio: 16/9;
+}
+.chat-messages {
+  flex-direction: column;
+}
