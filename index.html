@@ -72,7 +72,7 @@
   <!-- Firebase SDK -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-    import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+    import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
 
     // Defina a configuração do Firebase
     const firebaseConfig = {
@@ -87,17 +87,22 @@
 
     // Inicializando o Firebase
     const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
+    const db = getFirestore(app);
 
-    // Função para atualizar o contador de visualizações
-    const viewersRef = ref(db, 'viewers/');
-    let viewerId = Math.random().toString(36).substr(2, 9);  // Gerar ID único para cada visitante
-    set(ref(db, 'viewers/' + viewerId), true);
+    // Lembrando o nome do usuário
+    const usernameInput = document.getElementById('username');
 
-    // Atualizar o contador em tempo real
-    onValue(viewersRef, (snapshot) => {
-      const total = snapshot.numChildren();
-      document.getElementById("contador").innerText = `👀 ${total} pessoa${total !== 1 ? 's' : ''} assistindo agora`;
+    // Verifica se o nome já foi armazenado no localStorage
+    if (localStorage.getItem('username')) {
+      usernameInput.value = localStorage.getItem('username');
+    }
+
+    // Armazena o nome no localStorage quando o usuário digitar
+    usernameInput.addEventListener('blur', () => {
+      const username = usernameInput.value.trim();
+      if (username) {
+        localStorage.setItem('username', username);
+      }
     });
 
     // Função para enviar mensagem
@@ -106,6 +111,7 @@
       const message = document.getElementById('message').value.trim();
 
       if (username && message) {
+        // Envia a mensagem para o Firestore
         addDoc(collection(db, "chat"), {
           name: username,
           text: message,
@@ -113,9 +119,13 @@
         }).then(() => {
           // Limpa o campo de mensagem após o envio
           document.getElementById('message').value = "";
+          // Remove mensagens antigas se necessário
+          removeOldMessages();
         }).catch((error) => {
           console.error('Erro ao enviar mensagem: ', error);
         });
+      } else {
+        alert("Por favor, digite uma mensagem.");
       }
     }
 
@@ -127,20 +137,55 @@
     onSnapshot(q, (snapshot) => {
       const messagesContainer = document.getElementById("chat-messages");
       messagesContainer.innerHTML = "";
-      snapshot.forEach((doc) => {
+      
+      // Limite de 100 mensagens
+      const messages = snapshot.docs.slice(-10); // Pega as últimas 10 mensagens
+      
+      // Exibe as mensagens
+      messages.forEach((doc) => {
         const msg = doc.data();
         const messageElement = document.createElement("div");
-        messageElement.classList.add("chat-message", msg.name === document.getElementById('username').value ? 'user' : 'system');
-        messageElement.innerHTML = `<strong>${msg.name}:</strong> ${msg.text}`;
+
+        // Criação do nome com cor personalizada
+        const nameElement = document.createElement("span");
+        nameElement.style.color = "#FF6347";  // Cor do nome (você pode trocar essa cor)
+        nameElement.innerHTML = `<strong>${msg.name}:</strong>`;
+
+        // Texto da mensagem
+        const messageText = document.createElement("span");
+        messageText.innerHTML = ` ${msg.text}`;
+
+        // Adiciona as partes à mensagem
+        messageElement.appendChild(nameElement);
+        messageElement.appendChild(messageText);
+
+        // Adiciona a classe para diferenciar a mensagem do usuário
+        messageElement.classList.add("chat-message", msg.name === usernameInput.value ? 'user' : 'system');
         messagesContainer.appendChild(messageElement);
       });
+
+      // Rola até o final para exibir a nova mensagem
       messagesContainer.scrollTop = messagesContainer.scrollHeight;
     });
 
-    // Forçar o player a iniciar automaticamente após a página carregar
+    // Função para remover mensagens antigas quando o número de mensagens exceder 100
+    function removeOldMessages() {
+      const chatRef = collection(db, "chat");
+      const q = query(chatRef, orderBy("timestamp"));
+      
+      onSnapshot(q, (snapshot) => {
+        // Se o número de mensagens for maior que 10, exclui a mensagem mais antiga
+        if (snapshot.docs.length > 10) {
+          const firstDoc = snapshot.docs[0]; // A mensagem mais antiga
+          deleteDoc(doc(db, "chat", firstDoc.id)); // Exclui a mensagem mais antiga
+        }
+      });
+    }
+
+    // Forçar autoplay para o player de vídeo
     window.addEventListener('load', () => {
       const player = document.getElementById("live-player");
-      player.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+      player.src = player.src + "&autoplay=1"; // Reforça o autoplay via URL
     });
   </script>
 </body>
