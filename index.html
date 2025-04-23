@@ -17,15 +17,16 @@
   
   <main>
     <section class="stream">
-      <h1>LIVE STREAM <span class="badge">LIVE</span></h1>
+      <h1> 🔵 Getafe x Real Madrid ⚫ - Ao Vivo com imagem <span class="badge">LIVE</span></h1>
       <div class="stream-wrapper">
         <div class="player">
           <iframe src="https://player.livepush.io/live/em1ublKA2rfQKp3-a" width="640" height="480" allowFullScreen="1" frameBorder="0"></iframe>
+                  frameborder="0"
+                  allowfullscreen
+                  allow="autoplay">
+          </iframe>
         </div>
     
-        <!-- Contador de visualizações -->
-        <div id="contador" class="contador">👀 0 pessoas assistindo agora</div>
-
         <!-- Chat estilo YouTube -->
         <div class="chat">
           <div class="chat-header">💬 Chat ao Vivo</div>
@@ -72,7 +73,7 @@
   <!-- Firebase SDK -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-    import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+    import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
 
     // Defina a configuração do Firebase
     const firebaseConfig = {
@@ -87,18 +88,7 @@
 
     // Inicializando o Firebase
     const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
-
-    // Função para atualizar o contador de visualizações
-    const viewersRef = ref(db, 'viewers/');
-    let viewerId = Math.random().toString(36).substr(2, 9);  // Gerar ID único para cada visitante
-    set(ref(db, 'viewers/' + viewerId), true);
-
-    // Atualizar o contador em tempo real
-    onValue(viewersRef, (snapshot) => {
-      const total = snapshot.numChildren();
-      document.getElementById("contador").innerText = `👀 ${total} pessoa${total !== 1 ? 's' : ''} assistindo agora`;
-    });
+    const db = getFirestore(app);
 
     // Função para enviar mensagem
     function sendMessage() {
