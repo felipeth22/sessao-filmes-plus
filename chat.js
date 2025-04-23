@@ -1,4 +1,4 @@
-import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
 
 // Definindo a configuração do Firebase
@@ -46,6 +46,8 @@ function sendMessage() {
     }).then(() => {
       // Limpa o campo de mensagem após o envio
       document.getElementById('message').value = "";
+      // Remove mensagens antigas se necessário
+      removeOldMessages();
     }).catch((error) => {
       console.error('Erro ao enviar mensagem: ', error);
     });
@@ -62,7 +64,12 @@ const q = query(collection(db, "chat"), orderBy("timestamp"));
 onSnapshot(q, (snapshot) => {
   const messagesContainer = document.getElementById("chat-messages");
   messagesContainer.innerHTML = "";
-  snapshot.forEach((doc) => {
+  
+  // Limite de 100 mensagens
+  const messages = snapshot.docs.slice(-10); // Pega as últimas 10 mensagens
+  
+  // Exibe as mensagens
+  messages.forEach((doc) => {
     const msg = doc.data();
     const messageElement = document.createElement("div");
 
@@ -87,3 +94,18 @@ onSnapshot(q, (snapshot) => {
   // Rola até o final para exibir a nova mensagem
   messagesContainer.scrollTop = messagesContainer.scrollHeight;
 });
+
+// Função para remover mensagens antigas quando o número de mensagens exceder 100
+function removeOldMessages() {
+  const chatRef = collection(db, "chat");
+  const q = query(chatRef, orderBy("timestamp"));
+  
+  onSnapshot(q, (snapshot) => {
+    // Se o número de mensagens for maior que 10, exclui a mensagem mais antiga
+    if (snapshot.docs.length > 10) {
+      const firstDoc = snapshot.docs[0]; // A mensagem mais antiga
+      deleteDoc(doc(db, "chat", firstDoc.id)); // Exclui a mensagem mais antiga
+    }
+  });
+}
+
