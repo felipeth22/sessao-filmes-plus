@@ -1,171 +1,309 @@
 /* Reset básico */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  body {
-    font-family: Arial, sans-serif;
-    background-color: #111;
-    color: #fff;
-    line-height: 1.6;
-  }
-  
-  /* Header estiloso */
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #111;
+  color: #fff;
+  line-height: 1.6;
+}
+
+/* Header estiloso */
+header {
+  background-color: #000;
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 4px solid red;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+.logo {
+  font-size: 28px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+}
+.logo::before {
+  content: '🎬';
+  margin-right: 8px;
+}
+.logo span {
+  color: red;
+}
+
+nav a {
+  color: #fff;
+  text-decoration: none;
+  margin-left: 20px;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+nav a:hover {
+  color: red;
+}
+
+/* Conteúdo principal */
+main {
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.stream h1 {
+  font-size: 32px;
+  margin-bottom: 20px;
+}
+
+.badge {
+  background-color: red;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  margin-left: 10px;
+  font-size: 14px;
+}
+
+/* Player de vídeo */
+.player {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  background: #000;
+  border: 2px solid red;
+  border-radius: 10px;
+  overflow: hidden;
+  aspect-ratio: 16/9;
+}
+.player iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* Frase chamativa */
+.chamada {
+  font-size: 24px;
+  margin: 30px 0;
+  color: #f5f5f5;
+  font-weight: bold;
+}
+
+/* Botão Pix */
+.pix-section {
+  margin: 40px 0;
+}
+.pix-button {
+  background: red;
+  color: white;
+  padding: 15px 25px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+.pix-button:hover {
+  background: #cc0000;
+  transform: scale(1.05);
+}
+.pix-code {
+  margin-top: 20px;
+  display: none;
+  background: #222;
+  padding: 15px;
+  border: 1px solid red;
+  border-radius: 8px;
+  word-wrap: break-word;
+}
+
+/* Seção Sobre */
+.sobre {
+  max-width: 700px;
+  margin: 60px auto;
+  background: #1a1a1a;
+  padding: 30px;
+  border-radius: 10px;
+  border: 1px solid #333;
+}
+.sobre h2 {
+  color: red;
+  margin-bottom: 15px;
+}
+.sobre p {
+  color: #ccc;
+  line-height: 1.8;
+}
+
+/* Footer */
+footer {
+  background: #000;
+  text-align: center;
+  padding: 20px;
+  font-size: 14px;
+  color: #ccc;
+  border-top: 2px solid red;
+}
+
+/* Responsivo */
+@media (max-width: 600px) {
   header {
-    background-color: #000;
-    padding: 20px 40px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 4px solid red;
+    flex-direction: column;
+    align-items: flex-start;
   }
-  
+  nav {
+    margin-top: 10px;
+  }
   .logo {
-    font-size: 28px;
-    font-weight: 900;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    display: flex;
-    align-items: center;
-  }
-  .logo::before {
-    content: '🎬';
-    margin-right: 8px;
-  }
-  .logo span {
-    color: red;
-  }
-  
-  nav a {
-    color: #fff;
-    text-decoration: none;
-    margin-left: 20px;
-    font-weight: bold;
-    transition: color 0.3s ease;
-  }
-  nav a:hover {
-    color: red;
-  }
-  
-  /* Conteúdo principal */
-  main {
-    padding: 40px 20px;
-    text-align: center;
-  }
-  
-  .stream h1 {
-    font-size: 32px;
-    margin-bottom: 20px;
-  }
-  
-  .badge {
-    background-color: red;
-    color: white;
-    padding: 5px 10px;
-    border-radius: 5px;
-    margin-left: 10px;
-    font-size: 14px;
-  }
-  
-  /* Player de vídeo */
-  .player {
-    width: 100%;
-    max-width: 800px;
-    margin: 0 auto;
-    background: #000;
-    border: 2px solid red;
-    border-radius: 10px;
-    overflow: hidden;
-    aspect-ratio: 16/9;
-  }
-  .player iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
-  }
-  
-  /* Frase chamativa */
-  .chamada {
     font-size: 24px;
-    margin: 30px 0;
-    color: #f5f5f5;
-    font-weight: bold;
   }
-  .chamada span {
-    color: red;
+  .chamada {
+    font-size: 20px;
   }
-  
-  /* Botão Pix */
-  .pix-section {
-    margin: 40px 0;
-  }
-  .pix-button {
-    background: red;
-    color: white;
-    padding: 15px 25px;
-    font-size: 16px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background 0.3s ease;
-  }
-  .pix-button:hover {
-    background: #cc0000;
-  }
-  .pix-code {
+
+  .chat {
+    width: 100%;
+    max-width: 400px;
     margin-top: 20px;
-    display: none;
-    background: #222;
-    padding: 15px;
-    border: 1px solid red;
-    border-radius: 8px;
-    word-wrap: break-word;
   }
-  
-  /* Seção Sobre */
-  .sobre {
-    max-width: 700px;
-    margin: 60px auto;
-    background: #1a1a1a;
-    padding: 30px;
-    border-radius: 10px;
-    border: 1px solid #333;
+
+  .chat-header {
+    font-size: 16px;
   }
-  .sobre h2 {
-    color: red;
-    margin-bottom: 15px;
-  }
-  .sobre p {
-    color: #ccc;
-    line-height: 1.8;
-  }
-  
-  /* Footer */
-  footer {
-    background: #000;
-    text-align: center;
-    padding: 20px;
+
+  .chat-input input, .chat-input button {
     font-size: 14px;
-    color: #ccc;
-    border-top: 2px solid red;
   }
-  
-  /* Responsivo */
-  @media (max-width: 600px) {
-    header {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-    nav {
-      margin-top: 10px;
-    }
-    .logo {
-      font-size: 24px;
-    }
-    .chamada {
-      font-size: 20px;
-    }
+}
+
+.stream-wrapper {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.chat {
+  width: 300px;
+  background: #1e1e1e;
+  border: 1px solid red;
+  padding: 20px;
+  border-radius: 10px;
+  overflow-y: auto;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+}
+
+.chat-header {
+  background: #111;
+  padding: 10px;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 18px;
+  color: red;
+  font-weight: bold;
+}
+
+.chat-messages {
+  height: 400px;
+  overflow-y: scroll;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.chat-message {
+  background-color: #333;
+  color: #fff;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+  max-width: 80%;
+  word-wrap: break-word;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.chat-message.user {
+  background-color: red; /* Cor diferenciada para a mensagem do usuário */
+  align-self: flex-end; /* Alinha à direita */
+}
+
+.chat-message.system {
+  background-color: #555;
+  align-self: flex-start; /* Alinha à esquerda */
+}
+
+/* Ajuste na caixa de entrada */
+.chat-input {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chat-input input {
+  width: 75%; /* Aumenta o campo do nome */
+  padding: 10px;
+  border-radius: 25px;
+  border: 2px solid #444;
+  background-color: #333;
+  color: white;
+  font-size: 14px;
+  transition: border-color 0.3s ease;
+}
+
+.chat-input input:focus {
+  border-color: red;
+  background-color: #444;
+}
+
+.chat-input button {
+  width: 20%;
+  padding: 12px 20px;
+  background: red;
+  border: none;
+  border-radius: 25px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.chat-input button:hover {
+  background: #cc0000;
+  transform: scale(1.05);
+}
+
+.chat-input button:active {
+  transform: scale(1);
+}
+
+/* Animação suave para mensagens */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
   }
-  
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.chat-messages {
+  max-height: 400px;  /* Defina uma altura máxima conforme necessário */
+  overflow-y: auto;   /* Torna o conteúdo rolável */
+  display: flex;
+  flex-direction: column; /* Garante que as mensagens se alinhem de cima para baixo */
+}
+.chat-message strong {
+  color: #47ff63; /* Cor do nome */
+}

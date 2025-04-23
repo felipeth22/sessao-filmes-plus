@@ -18,19 +18,28 @@
   <main>
     <section class="stream">
       <h1>LIVE STREAM <span class="badge">LIVE</span></h1>
-      <div class="player">
-        <iframe src="https://player.castr.com/live_78f25d501fd511f09bac7f64b724948e"
-                frameborder="0"
-                allowfullscreen
-                allow="autoplay"
-                webkitallowfullscreen
-                mozallowfullscreen
-                oallowfullscreen
-                msallowfullscreen>
-        </iframe>
+      <div class="stream-wrapper">
+        <div class="player">
+          <iframe src="https://player.castr.com/live_78f25d501fd511f09bac7f64b724948e"
+                  frameborder="0"
+                  allowfullscreen
+                  allow="autoplay">
+          </iframe>
+        </div>
+    
+        <!-- Chat estilo YouTube -->
+        <div class="chat">
+          <div class="chat-header">💬 Chat ao Vivo</div>
+          <div class="chat-messages" id="chat-messages"></div>
+          <div class="chat-input">
+            <input type="text" id="username" placeholder="Seu nome" />
+            <input type="text" id="message" placeholder="Digite sua mensagem..." />
+            <button id="sendMessageButton">Enviar</button>
+          </div>
+        </div>
       </div>
     </section>
-
+    
     <!-- Frase Chamativa -->
     <div class="chamada">
       Assista agora gratuitamente! 🎬
@@ -41,7 +50,7 @@
       <button class="pix-button" onclick="document.querySelector('.pix-code').style.display='block';">
         Doar via Pix
       </button>
-      <div class="pix-code">
+      <div class="pix-code" style="display: none;">
         Chave Pix: <strong>SEU_CÓDIGO_ALEATÓRIO_AQUI</strong>
       </div>
     </div>
@@ -61,9 +70,62 @@
     <p>© 2025 Sessão Filmes Plus - Todos os direitos reservados.</p>
   </footer>
 
-  <script>
-    // Código para mostrar o código do Pix (caso você queira)
-    // A função já está no botão Pix
+  <!-- Firebase SDK -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+    import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+
+    // Defina a configuração do Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyAFGl-c05ASHqV9D_P9D2joqbKlN6VGil0",
+      authDomain: "sessao-filmes-plus-chat.firebaseapp.com",
+      projectId: "sessao-filmes-plus-chat",
+      storageBucket: "sessao-filmes-plus-chat.appspot.com",
+      messagingSenderId: "307774865030",
+      appId: "1:307774865030:web:c65924ce244aab8d7ddb07",
+      measurementId: "G-46Y64F6RH9"
+    };
+
+    // Inicializando o Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // Função para enviar mensagem
+    function sendMessage() {
+      const username = document.getElementById('username').value.trim();
+      const message = document.getElementById('message').value.trim();
+
+      if (username && message) {
+        addDoc(collection(db, "chat"), {
+          name: username,
+          text: message,
+          timestamp: serverTimestamp()
+        }).then(() => {
+          // Limpa o campo de mensagem após o envio
+          document.getElementById('message').value = "";
+        }).catch((error) => {
+          console.error('Erro ao enviar mensagem: ', error);
+        });
+      }
+    }
+
+    // Adiciona um ouvinte de evento ao botão "Enviar"
+    document.getElementById('sendMessageButton').addEventListener('click', sendMessage);
+
+    // Função para exibir as mensagens em tempo real
+    const q = query(collection(db, "chat"), orderBy("timestamp"));
+    onSnapshot(q, (snapshot) => {
+      const messagesContainer = document.getElementById("chat-messages");
+      messagesContainer.innerHTML = "";
+      snapshot.forEach((doc) => {
+        const msg = doc.data();
+        const messageElement = document.createElement("div");
+        messageElement.classList.add("chat-message", msg.name === document.getElementById('username').value ? 'user' : 'system');
+        messageElement.innerHTML = `<strong>${msg.name}:</strong> ${msg.text}`;
+        messagesContainer.appendChild(messageElement);
+      });
+      messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    });
   </script>
 </body>
 </html>
