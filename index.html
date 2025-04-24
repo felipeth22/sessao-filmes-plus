@@ -15,29 +15,47 @@
     </nav>
   </header>
   
-<!-- Botão para WhatsApp e Propaganda IPTV -->
-<div style="text-align: center; margin-top: 30px;">
-  <!-- Propaganda IPTV -->
-  <div style="background-color: #111; color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 2px solid red;">
-    <h2 style="color: red; font-size: 24px; margin-bottom: 10px;">🔥 Conheça o Prime Play IPTV!</h2>
-    <p style="font-size: 16px;">
-      Assista filmes, séries, futebol ao vivo e muito mais por um preço que cabe no seu bolso!
-    </p>
-    <p style="color: #0f0;">✔ Sem travamentos | ✔ Apps oficiais | ✔ Suporte rápido</p>
-    <p style="font-weight: bold; margin-top: 10px;">Chame agora no WhatsApp e faça um teste grátis!</p>
+  <!-- Botão para WhatsApp e Propaganda IPTV -->
+  <div style="text-align: center; margin-top: 30px;">
+    <!-- Propaganda IPTV -->
+    <div style="background-color: #111; color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 2px solid red;">
+      <h2 style="color: red; font-size: 24px; margin-bottom: 10px;">🔥 Conheça o Prime Play!</h2>
+      <p style="font-size: 16px;">
+        Assista filmes, séries, futebol ao vivo e muito mais por um preço que cabe no seu bolso!
+      </p>
+      <p style="color: #0f0;">✔ Sem travamentos | ✔ Apps Parceiros | ✔ Suporte rápido</p>
+      <p style="font-weight: bold; margin-top: 10px;">Chame agora no WhatsApp e faça um teste grátis!</p>
+    </div>
+
+    <!-- Botão do WhatsApp -->
+    <a href="https://wa.me/5575982817585" target="_blank" style="text-decoration: none;">
+      <button style="background-color: #295d2c; color: white; padding: 15px 30px; font-size: 22px; border: none; border-radius: 8px; cursor: pointer;">
+        💬 Falar no WhatsApp
+      </button>
+    </a>
   </div>
 
-  <!-- Botão do WhatsApp -->
-  <a href="https://wa.me/5575982817585" target="_blank" style="text-decoration: none;">
-    <button style="background-color: #295d2c; color: white; padding: 15px 30px; font-size: 22px; border: none; border-radius: 8px; cursor: pointer;">
-      💬 Falar no WhatsApp
-    </button>
-  </a>
-</div>
+  <div class="contador-viewers">
+    <span class="icone">👁️</span>
+    <span id="viewer-count">0</span>
+    <span class="texto">pessoas assistindo agora</span>
+  </div>
+  
 
   <main>
     <section class="stream">
-      <h1> 🔵 Getafe x Real Madrid ⚫ - Ao Vivo com imagem <span class="badge">LIVE</span></h1>
+      <div style="text-align: center;">
+  <h1 style="font-size: 1.2rem; color: #fff; background-color: #000; padding: 0.5rem 1rem; border-radius: 0.5rem; display: inline-flex; align-items: center; gap: 0.4rem;">
+    ⚫ <span style="color: #000; background-color: #fff; padding: 0.05rem 0.3rem; border-radius: 0.2rem; font-size: 1rem;">Corinthians</span>
+    x
+    <span style="color: #fff; background-color: #1db954; padding: 0.05rem 0.3rem; border-radius: 0.2rem; font-size: 1rem;">Racing-URU</span>
+    – Ao Vivo com Imagem
+    <span style="background-color: #e50914; color: white; padding: 0.1rem 0.4rem; border-radius: 0.4rem; font-weight: bold; font-size: 0.75rem;">
+      🔴 LIVE
+    </span>
+  </h1>
+</div>
+
       <div class="stream-wrapper">
         <div class="player">
           <iframe src="https://player.livepush.io/live/em1ublKA2rfQKp3-a" width="640" height="480" allowfullscreen allow="autoplay" frameborder="0"></iframe>
@@ -56,6 +74,7 @@
       </div>
     </section>
     
+    
     <!-- Frase Chamativa -->
     <div class="chamada">
       Assista agora gratuitamente! 🎬
@@ -63,12 +82,19 @@
 
     <!-- Seção Sobre -->
     <section class="sobre">
-      <h2>Quem Somos</h2>
-      <p>
-        Bem-vindo ao Sessão Filmes Plus! Aqui você pode assistir às melhores lives de filmes e séries,
-        com a melhor qualidade e sem interrupções. Se você está curtindo nosso conteúdo, considere fazer
-        uma doação via Pix para apoiar nosso projeto. 💪
-      </p>
+      <section style="padding: 2rem; background-color: #111; color: #fff; border-radius: 1rem; max-width: 800px; margin: auto;">
+        <h2 style="font-size: 2rem; color: #e50914; margin-bottom: 1rem;">🎬 Quem Somos</h2>
+        <p style="font-size: 1.1rem; line-height: 1.8;">
+          <strong>Há mais de 4 anos</strong>, o <strong style="color: #e50914;">Sessão Filmes Plus</strong> é a sua escolha número um em
+          <strong>streaming de qualidade</strong>! Nosso compromisso é entregar os melhores conteúdos:
+          <span style="color: #1db954;"><strong>filmes, séries, futebol</strong></span> e muito mais,
+          com <strong>suporte dedicado</strong> e <strong>zero interrupções</strong>.  
+          <br><br>
+          Estamos em constante evolução para garantir uma experiência incrível, e é um prazer ter você com a gente.
+          <strong style="color: #1db954;">Obrigado por fazer parte dessa jornada! 💪🏽</strong>
+        </p>
+      </section>
+      
     </section>
   </main>
 
@@ -79,9 +105,9 @@
   <!-- Firebase SDK -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-    import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+    import { getFirestore, doc, getDoc, updateDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
 
-    // Defina a configuração do Firebase
+    // Definindo a configuração do Firebase
     const firebaseConfig = {
       apiKey: "AIzaSyAFGl-c05ASHqV9D_P9D2joqbKlN6VGil0",
       authDomain: "sessao-filmes-plus-chat.firebaseapp.com",
@@ -96,42 +122,68 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    // Função para enviar mensagem
-    function sendMessage() {
-      const username = document.getElementById('username').value.trim();
-      const message = document.getElementById('message').value.trim();
+    // Definindo a referência para o documento que contém a contagem de visualizações
+    const viewersRef = doc(db, "viewers", "live_view_count");
 
-      if (username && message) {
-        addDoc(collection(db, "chat"), {
-          name: username,
-          text: message,
-          timestamp: serverTimestamp()
-        }).then(() => {
-          // Limpa o campo de mensagem após o envio
-          document.getElementById('message').value = "";
-        }).catch((error) => {
-          console.error('Erro ao enviar mensagem: ', error);
-        });
+    // Função para incrementar a contagem de visualizações
+    async function incrementViewCount() {
+      try {
+        const docSnap = await getDoc(viewersRef);
+        
+        if (!docSnap.exists()) {
+          // Se o documento não existir, cria com contagem inicial de 1
+          await updateDoc(viewersRef, { count: 1 });
+        } else {
+          // Se o documento existir, incrementa o contador
+          const currentCount = docSnap.data().count || 0;
+          await updateDoc(viewersRef, { count: currentCount + 1 });
+        }
+      } catch (e) {
+        console.error("Erro ao incrementar o contador: ", e);
       }
     }
 
-    // Adiciona um ouvinte de evento ao botão "Enviar"
-    document.getElementById('sendMessageButton').addEventListener('click', sendMessage);
+    // Função para exibir o contador de visualizações
+    function listenToViewCount() {
+      const viewerCountElement = document.getElementById("viewer-count");
 
-    // Função para exibir as mensagens em tempo real
-    const q = query(collection(db, "chat"), orderBy("timestamp"));
-    onSnapshot(q, (snapshot) => {
-      const messagesContainer = document.getElementById("chat-messages");
-      messagesContainer.innerHTML = "";
-      snapshot.forEach((doc) => {
-        const msg = doc.data();
-        const messageElement = document.createElement("div");
-        messageElement.classList.add("chat-message", msg.name === document.getElementById('username').value ? 'user' : 'system');
-        messageElement.innerHTML = `<strong>${msg.name}:</strong> ${msg.text}`;
-        messagesContainer.appendChild(messageElement);
+      // Ouvir as mudanças na contagem de visualizações no Firestore
+      onSnapshot(viewersRef, (doc) => {
+        if (doc.exists()) {
+          const data = doc.data();
+          document.getElementById("viewer-count").textContent = data.count;
+
+
+        }
       });
-      messagesContainer.scrollTop = messagesContainer.scrollHeight;
-    });
+    }
+
+    // Chama incrementViewCount quando a página é carregada
+    window.onload = () => {
+      incrementViewCount();  // Incrementa a contagem de visualizações
+      listenToViewCount();   // Escuta mudanças no contador e exibe no HTML
+    };
+
+   
+  window.addEventListener("DOMContentLoaded", () => {
+    const iframe = document.querySelector(".player iframe");
+    const loader = document.createElement("div");
+    loader.className = "loader";
+    document.querySelector(".player").appendChild(loader);
+
+    iframe.onload = () => {
+      loader.remove();
+      iframe.style.opacity = 1;
+    };
+  });
+
+
+
+
   </script>
+
+<script type="module" src="chat.js"></script>
+
+
 </body>
 </html>
