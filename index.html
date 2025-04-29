@@ -6,10 +6,33 @@
   <title>Sessão Filmes Plus</title>
   <link rel="stylesheet" href="style.css" />
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+
+  <!-- Google Cast SDK -->
+  <script src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
+  <script>
+    window['__onGCastApiAvailable'] = function(isAvailable) {
+      if (isAvailable) {
+        cast.framework.CastContext.getInstance().setOptions({
+          receiverApplicationId: chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID,
+          autoJoinPolicy: chrome.cast.AutoJoinPolicy.ORIGIN_SCOPED
+        });
+      }
+    };
+  </script>
+
   <style>
     video::-webkit-media-controls-time-remaining-display,
     video::-webkit-media-controls-current-time-display {
       display: none !important;
+    }
+
+    #cast-button {
+      width: 32px;
+      height: 32px;
+      background: url('https://www.gstatic.com/cast/sdk/libs/caf_receiver/v3/images/cast_icon_black.png') no-repeat center;
+      background-size: contain;
+      border: none;
+      cursor: pointer;
     }
   </style>
 </head>
@@ -30,7 +53,7 @@
       <p style="font-weight: bold; margin-top: 10px;">Chame agora no WhatsApp e faça um teste grátis!</p>
     </div>
 
-    <a href="https://wa.me/5575982817585" target="_blank" style="text-decoration: none;">
+    <a href="https://wa.me/5521972922243" target="_blank" style="text-decoration: none;">
       <button style="background-color: #295d2c; color: white; padding: 15px 30px; font-size: 22px; border: none; border-radius: 8px; cursor: pointer;">
         💬 Falar no WhatsApp
       </button>
@@ -44,15 +67,19 @@
   </div>
   
   <main>
-    <section class="stream">
-      <div style="text-align: center;">
-        <h1 style="font-size: 1.2rem; color: #fff; background-color: #000; padding: 0.5rem 1rem; border-radius: 0.5rem; display: inline-flex; align-items: center; gap: 0.4rem;">
-          ⚫ <span style="color: #000; background-color: #fff; padding: 0.05rem 0.3rem; border-radius: 0.2rem; font-size: 1rem;">Corinthians</span>
-          x
-          <span style="color: #fff; background-color: #1db954; padding: 0.05rem 0.3rem; border-radius: 0.2rem; font-size: 1rem;">Racing-URU</span>
-          – Ao Vivo com Imagem
-          <span style="background-color: #e50914; color: white; padding: 0.1rem 0.4rem; border-radius: 0.4rem; font-weight: bold; font-size: 0.75rem;">🔴 LIVE</span>
-        </h1>
+  <section class="stream">
+    <div style="text-align: center; margin-top: 20px;">
+      <p style="font-size: 1.2rem; color: #fff;">
+        ⚪ São Paulo x Náutico 🔴 – Ao Vivo com Imagem 
+      </p>
+    </div>
+  </section>
+</main>
+
+
+      <div style="text-align: center; margin: 10px 0;">
+        <!-- Botão de transmissão -->
+        <google-cast-launcher id="cast-button"></google-cast-launcher>
       </div>
 
       <div class="stream-wrapper">
