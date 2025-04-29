@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Sessão Filmes Plus</title>
   <link rel="stylesheet" href="style.css" />
-  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script> <!-- ADICIONADO hls.js -->
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 </head>
 <body>
   <header>
@@ -19,9 +19,7 @@
   <div style="text-align: center; margin-top: 30px;">
     <div style="background-color: #111; color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 2px solid red;">
       <h2 style="color: red; font-size: 24px; margin-bottom: 10px;">🔥 Conheça o Prime Play!</h2>
-      <p style="font-size: 16px;">
-        Assista filmes, séries, futebol ao vivo e muito mais por um preço que cabe no seu bolso!
-      </p>
+      <p style="font-size: 16px;">Assista filmes, séries, futebol ao vivo e muito mais por um preço que cabe no seu bolso!</p>
       <p style="color: #0f0;">✔ Sem travamentos | ✔ Apps Parceiros | ✔ Suporte rápido</p>
       <p style="font-weight: bold; margin-top: 10px;">Chame agora no WhatsApp e faça um teste grátis!</p>
     </div>
@@ -47,17 +45,17 @@
           x
           <span style="color: #fff; background-color: #1db954; padding: 0.05rem 0.3rem; border-radius: 0.2rem; font-size: 1rem;">Racing-URU</span>
           – Ao Vivo com Imagem
-          <span style="background-color: #e50914; color: white; padding: 0.1rem 0.4rem; border-radius: 0.4rem; font-weight: bold; font-size: 0.75rem;">
-            🔴 LIVE
-          </span>
+          <span style="background-color: #e50914; color: white; padding: 0.1rem 0.4rem; border-radius: 0.4rem; font-weight: bold; font-size: 0.75rem;">🔴 LIVE</span>
         </h1>
       </div>
 
       <div class="stream-wrapper">
-        <div class="player">
-          <video id="video" controls autoplay style="width: 100%; max-width: 100%; height: 500px; background: black; border-radius: 10px;"></video>
+        <div class="player" style="display: flex; justify-content: center; align-items: center; margin-top: 20px;">
+          <video id="video" controls autoplay
+            style="width: 100%; max-width: 800px; aspect-ratio: 16 / 9; background: black; border-radius: 10px;">
+          </video>
         </div>
-    
+
         <div class="chat">
           <div class="chat-header">💬 Chat ao Vivo</div>
           <div class="chat-messages" id="chat-messages"></div>
@@ -94,7 +92,7 @@
     <p>© 2025 Sessão Filmes Plus - Todos os direitos reservados.</p>
   </footer>
 
-  <!-- Firebase SDK -->
+  <!-- Firebase + HLS.js -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
     import { getFirestore, doc, getDoc, updateDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
@@ -111,7 +109,6 @@
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
-
     const viewersRef = doc(db, "viewers", "live_view_count");
 
     async function incrementViewCount() {
@@ -133,7 +130,7 @@
       onSnapshot(viewersRef, (doc) => {
         if (doc.exists()) {
           const data = doc.data();
-          document.getElementById("viewer-count").textContent = data.count;
+          viewerCountElement.textContent = data.count;
         }
       });
     }
@@ -142,25 +139,19 @@
       incrementViewCount();
       listenToViewCount();
 
-      // PLAYER HLS CONFIGURAÇÃO
       const video = document.getElementById('video');
       if (Hls.isSupported()) {
         const hls = new Hls();
-        hls.loadSource('https://sessaofilmes.online/rtmp/live.m3u8'); // Alterado para HTTPS
+        hls.loadSource('https://sessaofilmes.online/rtmp/live.m3u8');
         hls.attachMedia(video);
-        hls.on(Hls.Events.MANIFEST_PARSED, function () {
-          video.play();
-        });
+        hls.on(Hls.Events.MANIFEST_PARSED, () => video.play());
       } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-        video.src = 'https://sessaofilmes.online/rtmp/live.m3u8'; // Alterado para HTTPS
-        video.addEventListener('loadedmetadata', function () {
-          video.play();
-        });
+        video.src = 'https://sessaofilmes.online/rtmp/live.m3u8';
+        video.addEventListener('loadedmetadata', () => video.play());
       }
     };
   </script>
 
   <script type="module" src="chat.js"></script>
-
 </body>
 </html>
