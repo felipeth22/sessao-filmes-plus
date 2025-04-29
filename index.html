@@ -6,6 +6,12 @@
   <title>Sessão Filmes Plus</title>
   <link rel="stylesheet" href="style.css" />
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+  <style>
+    video::-webkit-media-controls-time-remaining-display,
+    video::-webkit-media-controls-current-time-display {
+      display: none !important;
+    }
+  </style>
 </head>
 <body>
   <header>
@@ -142,11 +148,11 @@
       const video = document.getElementById('video');
       if (Hls.isSupported()) {
         const hls = new Hls();
-        hls.loadSource('https://sessaofilmes.online/rtmp/live.m3u8');
+        hls.loadSource('https://sessaofilmes.online/rtmp/live.m3u8'); 
         hls.attachMedia(video);
         hls.on(Hls.Events.MANIFEST_PARSED, () => video.play());
       } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-        video.src = 'https://sessaofilmes.online/rtmp/live.m3u8';
+        video.src = 'https://sessaofilmes.online/rtmp/live.m3u8'; 
         video.addEventListener('loadedmetadata', () => video.play());
       }
     };
