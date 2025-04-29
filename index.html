@@ -26,13 +26,13 @@
       display: none !important;
     }
 
-    #cast-button {
+    .cast-button {
+      position: absolute;
+      bottom: 15px;
+      right: 15px;
       width: 32px;
       height: 32px;
-      background: url('https://www.gstatic.com/cast/sdk/libs/caf_receiver/v3/images/cast_icon_black.png') no-repeat center;
-      background-size: contain;
-      border: none;
-      cursor: pointer;
+      z-index: 10;
     }
   </style>
 </head>
@@ -67,26 +67,20 @@
   </div>
   
   <main>
-  <section class="stream">
-    <div style="text-align: center; margin-top: 20px;">
-      <p style="font-size: 1.2rem; color: #fff;">
-        ⚪ São Paulo x Náutico 🔴 – Ao Vivo com Imagem 
-      </p>
-    </div>
-  </section>
-</main>
-
-
-      <div style="text-align: center; margin: 10px 0;">
-        <!-- Botão de transmissão -->
-        <google-cast-launcher id="cast-button"></google-cast-launcher>
+    <section class="stream">
+      <div style="text-align: center; margin-top: 20px;">
+        <p style="font-size: 1.2rem; color: #fff;">
+          ⚪ São Paulo x Náutico 🔴 – Ao Vivo com Imagem 
+        </p>
       </div>
 
       <div class="stream-wrapper">
-        <div class="player" style="display: flex; justify-content: center; align-items: center; margin-top: 20px;">
+        <div class="player" style="display: flex; justify-content: center; align-items: center; margin-top: 20px; position: relative;">
           <video id="video" controls autoplay
             style="width: 100%; max-width: 800px; aspect-ratio: 16 / 9; background: black; border-radius: 10px;">
           </video>
+          <!-- Botão de transmissão (Cast) posicionado corretamente -->
+          <google-cast-launcher class="cast-button"></google-cast-launcher>
         </div>
 
         <div class="chat">
@@ -100,7 +94,7 @@
         </div>
       </div>
     </section>
-    
+
     <div class="chamada">
       Assista agora gratuitamente! 🎬
     </div>
