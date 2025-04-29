@@ -403,3 +403,11 @@ nome  color: #47ff63; /* Cor do  */
   text-align: left;
   margin-bottom: 5px;
 }
+.cast-button {
+  position: absolute;
+  top: 15px; /* antes era bottom */
+  right: 15px;
+  width: 32px;
+  height: 32px;
+  z-index: 10;
+}
